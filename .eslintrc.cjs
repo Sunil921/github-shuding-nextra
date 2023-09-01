@@ -43,6 +43,10 @@ module.exports = {
         'unicorn/no-negated-condition': 'error',
         'prefer-regex-literals': ['error', { disallowRedundantWrapping: true }],
         'object-shorthand': ['error', 'always'],
+        'unicorn/prefer-regexp-test': 'error',
+        'unicorn/no-array-for-each': 'error',
+        'unicorn/prefer-string-replace-all': 'error',
+        '@typescript-eslint/prefer-for-of': 'error',
         // todo: enable
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
@@ -122,7 +126,12 @@ module.exports = {
         tailwindcss: {
           config: 'packages/nextra-theme-docs/tailwind.config.js',
           callees: ['cn'],
-          whitelist: ['nextra-breadcrumb', 'nextra-bleed']
+          whitelist: [
+            'nextra-breadcrumb',
+            'nextra-bleed',
+            'nextra-menu-desktop',
+            'nextra-menu-mobile'
+          ]
         }
       },
       rules: {

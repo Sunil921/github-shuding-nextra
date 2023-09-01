@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { useRouter } from 'next/router'
 import type { Mock } from 'vitest'
-import { describe, expect, it, vi } from 'vitest'
 import { useFSRoute } from '../src/hooks'
 
 vi.mock('next/router', () => ({
@@ -71,6 +70,16 @@ describe('getFSRoute', () => {
 
   it('remove trailing slash', () => {
     const value = mockAndRenderHook({ asPath: '/foo/' })
+    expect(value).toEqual('/foo')
+  })
+
+  it('should strip .html file extension', () => {
+    const value = mockAndRenderHook({ asPath: '/foo.html' })
+    expect(value).toEqual('/foo')
+  })
+
+  it('should strip .html file extension and replace index', () => {
+    const value = mockAndRenderHook({ asPath: '/foo/index.html' })
     expect(value).toEqual('/foo')
   })
 })

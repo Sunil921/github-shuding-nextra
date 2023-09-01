@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Page Process > pageMap en-US 1`] = `
 [
@@ -55,7 +55,6 @@ exports[`Page Process > pageMap en-US 1`] = `
         "blog": {
           "theme": {
             "breadcrumb": false,
-            "footer": true,
             "sidebar": false,
             "toc": true,
             "typesetting": "article",
@@ -74,6 +73,7 @@ exports[`Page Process > pageMap en-US 1`] = `
           "title": "Examples",
           "type": "page",
         },
+        "foo": "Foo",
         "index": {
           "display": "hidden",
           "title": "Introduction",
@@ -635,6 +635,12 @@ exports[`Page Process > pageMap en-US 1`] = `
       "route": "/examples",
     },
     {
+      "kind": "MdxPage",
+      "locale": "en-US",
+      "name": "foo",
+      "route": "/foo",
+    },
+    {
       "frontMatter": {
         "searchable": false,
         "title": "React Hooks for Data Fetching",
@@ -666,6 +672,13 @@ exports[`Page Process > pageMap ru 1`] = `
     {
       "data": {
         "blog": {
+          "theme": {
+            "breadcrumb": false,
+            "sidebar": false,
+            "timestamp": true,
+            "toc": true,
+            "typesetting": "article",
+          },
           "title": "Блог",
           "type": "page",
         },
@@ -738,7 +751,12 @@ exports[`Page Process > pageMap ru 1`] = `
       "children": [
         {
           "data": {
-            "swr-v1": "Представляем SWR 1.0",
+            "swr-v1": {
+              "theme": {
+                "breadcrumb": true,
+              },
+              "title": "Представляем SWR 1.0",
+            },
           },
           "kind": "Meta",
           "locale": "ru",
@@ -755,6 +773,12 @@ exports[`Page Process > pageMap ru 1`] = `
         },
       ],
       "kind": "Folder",
+      "name": "blog",
+      "route": "/blog",
+    },
+    {
+      "kind": "MdxPage",
+      "locale": "ru",
       "name": "blog",
       "route": "/blog",
     },
@@ -1153,13 +1177,10 @@ exports[`Page Process > pageMap ru 1`] = `
       "route": "/500",
     },
     {
-      "frontMatter": {
-        "searchable": false,
-      },
       "kind": "MdxPage",
       "locale": "en-US",
-      "name": "blog",
-      "route": "/blog",
+      "name": "foo",
+      "route": "/foo",
     },
     {
       "frontMatter": {

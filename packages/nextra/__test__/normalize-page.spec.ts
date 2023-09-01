@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { normalizePages } from '../src/normalize-pages'
 import { cnPageMap, usPageMap } from './fixture/page-maps/pageMap'
 
@@ -167,13 +166,13 @@ describe('normalize-page', () => {
       [
         {
           "name": "docs",
-          "route": "#",
+          "route": "",
           "title": "Documentation",
           "type": "page",
         },
         {
           "name": "explorers",
-          "route": "#",
+          "route": "",
           "title": "Explorers",
           "type": "menu",
         },
@@ -186,7 +185,7 @@ describe('normalize-page', () => {
         },
         {
           "name": "explorers2",
-          "route": "#",
+          "route": "",
           "title": "Explorers2",
           "type": "menu",
         },

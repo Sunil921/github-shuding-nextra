@@ -21,7 +21,7 @@ export const IS_BROWSER = typeof window !== 'undefined'
 function isReactNode(value: unknown): boolean {
   return (
     value == null ||
-    isString(value) ||
+    typeof value === 'string' ||
     isFunction(value) ||
     isValidElement(value as any)
   )
@@ -29,10 +29,6 @@ function isReactNode(value: unknown): boolean {
 
 function isFunction(value: unknown): boolean {
   return typeof value === 'function'
-}
-
-function isString(value: unknown): boolean {
-  return typeof value === 'string'
 }
 
 const i18nSchema = z.array(
@@ -147,6 +143,7 @@ export const themeSchema = z.strictObject({
     useOptions: themeOptionsSchema.or(z.function().returns(themeOptionsSchema))
   }),
   toc: z.strictObject({
+    backToTop: z.boolean(),
     component: z.custom<ReactNode | FC<TOCProps>>(...reactNode),
     extraContent: z.custom<ReactNode | FC>(...reactNode),
     float: z.boolean(),
@@ -337,6 +334,7 @@ export const DEFAULT_THEME: DocsThemeConfig = {
     }
   },
   toc: {
+    backToTop: false,
     component: TOC,
     float: true,
     title: 'On This Page'

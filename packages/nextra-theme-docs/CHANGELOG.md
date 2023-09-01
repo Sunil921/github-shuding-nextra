@@ -1,5 +1,103 @@
 # nextra-theme-docs
 
+## 2.12.3
+
+### Patch Changes
+
+- ffb6d808: - Fix
+  `TypeError: Cannot read properties of null (reading 'classList')` while
+  navigating to route that doesn't have toc with `router.push` for example
+
+  - Add alias `Tabs.Tab` to `Tab` component
+  - Add alias `Cards.Card` to `Card` component
+  - should not attach custom heading id as id attribute if parent is `Tabs.Tab`
+    or `Tab`
+  - should not save to toc list headings of level 1
+
+- Updated dependencies [ffb6d808]
+  - nextra@2.12.3
+
+## 2.12.2
+
+### Patch Changes
+
+- 7c8c4989: fix `Out of Memory` in search while indexing large words
+- Updated dependencies [7c8c4989]
+  - nextra@2.12.2
+
+## 2.12.1
+
+### Patch Changes
+
+- Updated dependencies [52ae8fc5]
+  - nextra@2.12.1
+
+## 2.12.0
+
+### Minor Changes
+
+- d9820746: - show headings for partial md/mdx in toc
+
+  - hide headings in toc when parent `<Tab />` or `<Tabs.Tab />`
+
+- 63271a41: add toc.backToTop option
+- 8962597e: - allow override static image component that was hardcoded to
+  `import Image from 'next/image'` now it's plain `<img />`
+
+  - support `<details />`/`<summary />` for `.md` files
+
+### Patch Changes
+
+- cca36d32: do not render mobile sidebar on desktop
+- Updated dependencies [d9820746]
+- Updated dependencies [fbf003cd]
+- Updated dependencies [8962597e]
+  - nextra@2.12.0
+
+## 2.11.1
+
+### Patch Changes
+
+- cf5f91ea: fix footnotes and backlink jump
+- ddddce95: skip search indexing for 404/500 pages
+- 4dd720ad: remove `font-weight: 500;` from styles of code blocks since it gives
+  no effect
+- 29e35d81: fix feedback.labels for gitlab
+- Updated dependencies [ddddce95]
+- Updated dependencies [6154e312]
+- Updated dependencies [46743ba4]
+- Updated dependencies [4dd720ad]
+  - nextra@2.11.1
+
+## 2.11.0
+
+### Minor Changes
+
+- 3bb480a4: export `LocaleSwitch` from `nextra-theme-docs`
+
+### Patch Changes
+
+- 3bb480a4: use github-slugger for custom heading ids to prevent duplicated
+  headings
+- 3bb480a4: fix custom heading id in search result
+- 3bb480a4: fix
+  `Warning: Prop href did not match. Server: "/blog.en-US#" Client: "/blog#"` in
+  by `normalizePages` from nextra/normalize-pages`
+- 3bb480a4: improve hr contrast
+- 3bb480a4: fix search, trigger the search after the Input is complete for
+  languages like Chinese
+- 3bb480a4: strip `.html` extension from URL route for static export
+- 3bb480a4: fix memory leak in search for case `>  ` replaced previously to
+  `>||` + some character provoke memory leak because `RegExp#exec` will always
+  return a match
+- 3bb480a4: fix code blocks `box-decoration-theme: clone` can create confusing
+  output over line breaks, use `slice` instead
+- Updated dependencies [3bb480a4]
+- Updated dependencies [3bb480a4]
+- Updated dependencies [3bb480a4]
+- Updated dependencies [3bb480a4]
+  - nextra@2.11.0
+
 ## 2.10.0
 
 ### Minor Changes

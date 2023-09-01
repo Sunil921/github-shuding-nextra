@@ -17,8 +17,8 @@ export const remarkCustomHeadingId: Plugin<[], Root> =
 
       if (!matched) return
       node.data ||= {}
-      node.data.hProperties ||= {} as HProperties
-      ;(node.data.hProperties as HProperties).id = matched[1]
+      const headingProps: HProperties = (node.data.hProperties ||= {})
+      headingProps.id = matched[1]
 
       lastChild.value = heading.slice(0, matched.index)
     })

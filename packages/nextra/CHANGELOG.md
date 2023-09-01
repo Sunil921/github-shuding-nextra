@@ -1,5 +1,84 @@
 # nextra
 
+## 2.12.3
+
+### Patch Changes
+
+- ffb6d808: - Fix
+  `TypeError: Cannot read properties of null (reading 'classList')` while
+  navigating to route that doesn't have toc with `router.push` for example
+
+  - Add alias `Tabs.Tab` to `Tab` component
+  - Add alias `Cards.Card` to `Card` component
+  - should not attach custom heading id as id attribute if parent is `Tabs.Tab`
+    or `Tab`
+  - should not save to toc list headings of level 1
+
+## 2.12.2
+
+### Patch Changes
+
+- 7c8c4989: fix `Out of Memory` in search while indexing large words
+
+## 2.12.1
+
+### Patch Changes
+
+- 52ae8fc5: - always cache md/mdx compiler for non-remote content and never
+  cache for remote content
+
+  - refactor function arguments for `compileMdx`
+  - fix source code from loader was stripped starting from last match
+    `export default MDXContent;` and until the end, so `transform` function was
+    not applied
+  - fix `headings` were `undefined` in remote content
+
+## 2.12.0
+
+### Minor Changes
+
+- d9820746: - show headings for partial md/mdx in toc
+
+  - hide headings in toc when parent `<Tab />` or `<Tabs.Tab />`
+
+- 8962597e: - allow override static image component that was hardcoded to
+  `import Image from 'next/image'` now it's plain `<img />`
+
+  - support `<details />`/`<summary />` for `.md` files
+
+### Patch Changes
+
+- fbf003cd: cache md/mdx processor
+
+## 2.11.1
+
+### Patch Changes
+
+- ddddce95: skip search indexing for 404/500 pages
+- 6154e312: ensure first h1 is set as page title if frontmatter.title is missing
+- 46743ba4: fix TS error
+  `Cannot find module 'nextra/filter-route-locale' or its corresponding type declarations.`
+  while importing
+
+  ```js
+  import filterRouteLocale from 'nextra/filter-route-locale'
+  ```
+
+- 4dd720ad: remove `font-weight: 500;` from styles of code blocks since it gives
+  no effect
+
+## 2.11.0
+
+### Patch Changes
+
+- 3bb480a4: use github-slugger for custom heading ids to prevent duplicated
+  headings
+- 3bb480a4: fix custom heading id in search result
+- 3bb480a4: fix
+  `Warning: Prop href did not match. Server: "/blog.en-US#" Client: "/blog#"` in
+  by `normalizePages` from nextra/normalize-pages`
+- 3bb480a4: strip `.html` extension from URL route for static export
+
 ## 2.10.0
 
 ### Minor Changes

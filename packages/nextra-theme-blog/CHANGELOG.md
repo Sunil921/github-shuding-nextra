@@ -1,5 +1,73 @@
 # nextra-theme-blog
 
+## 2.12.3
+
+### Patch Changes
+
+- Updated dependencies [ffb6d808]
+  - nextra@2.12.3
+
+## 2.12.2
+
+### Patch Changes
+
+- Updated dependencies [7c8c4989]
+  - nextra@2.12.2
+
+## 2.12.1
+
+### Patch Changes
+
+- Updated dependencies [52ae8fc5]
+  - nextra@2.12.1
+
+## 2.12.0
+
+### Minor Changes
+
+- 8962597e: - allow override static image component that was hardcoded to
+  `import Image from 'next/image'` now it's plain `<img />`
+
+  - support `<details />`/`<summary />` for `.md` files
+
+### Patch Changes
+
+- Updated dependencies [d9820746]
+- Updated dependencies [fbf003cd]
+- Updated dependencies [8962597e]
+  - nextra@2.12.0
+
+## 2.11.1
+
+### Patch Changes
+
+- cf5f91ea: fix footnotes and backlink jump
+- 4dd720ad: remove `font-weight: 500;` from styles of code blocks since it gives
+  no effect
+- Updated dependencies [ddddce95]
+- Updated dependencies [6154e312]
+- Updated dependencies [46743ba4]
+- Updated dependencies [4dd720ad]
+  - nextra@2.11.1
+
+## 2.11.0
+
+### Minor Changes
+
+- 3bb480a4: support draft posts via frontMatter's `draft: true` value
+
+### Patch Changes
+
+- 3bb480a4: use github-slugger for custom heading ids to prevent duplicated
+  headings
+- 3bb480a4: fix code blocks `box-decoration-theme: clone` can create confusing
+  output over line breaks, use `slice` instead
+- Updated dependencies [3bb480a4]
+- Updated dependencies [3bb480a4]
+- Updated dependencies [3bb480a4]
+- Updated dependencies [3bb480a4]
+  - nextra@2.11.0
+
 ## 2.10.0
 
 ### Minor Changes

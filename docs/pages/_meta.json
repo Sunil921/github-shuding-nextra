@@ -13,12 +13,23 @@
   },
   "showcase": {
     "type": "page",
-    "title": "Showcase"
+    "title": "Showcase",
+    "theme": {
+      "typesetting": "article",
+      "layout": "full"
+    }
   },
   "about": {
     "type": "page",
     "title": "About",
     "theme": {
+      "typesetting": "article"
+    }
+  },
+  "404": {
+    "type": "page",
+    "theme": {
+      "timestamp": false,
       "typesetting": "article"
     }
   }

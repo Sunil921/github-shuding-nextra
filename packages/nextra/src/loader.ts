@@ -43,6 +43,8 @@ const initGitRepo = (async () => {
   return {}
 })()
 
+const FOOTER_TO_REMOVE = 'export default MDXContent;'
+
 export async function loader(
   context: LoaderContext<LoaderOptions>,
   source: string
@@ -177,37 +179,31 @@ ${
 
   const {
     result,
-    headings,
     title,
     frontMatter,
     structurizedData,
     searchIndexKey,
     hasJsxInH1,
     readingTime
-  } = await compileMdx(
-    source,
-    {
-      mdxOptions: {
-        ...mdxOptions,
-        jsx: true,
-        outputFormat: 'program',
-        format: 'detect'
-      },
-      readingTime: _readingTime,
-      defaultShowCopyCode,
-      staticImage,
-      flexsearch,
-      latex,
-      codeHighlight,
-      route,
-      locale
+  } = await compileMdx(source, {
+    mdxOptions: {
+      ...mdxOptions,
+      jsx: true,
+      outputFormat: 'program',
+      format: 'detect'
     },
-    {
-      filePath: mdxPath,
-      useCachedCompiler: false, // TODO: produce hydration errors or error - Create a new processor first, by calling it: use `processor()` instead of `processor`.
-      isPageImport
-    }
-  )
+    readingTime: _readingTime,
+    defaultShowCopyCode,
+    staticImage,
+    flexsearch,
+    latex,
+    codeHighlight,
+    route,
+    locale,
+    filePath: mdxPath,
+    useCachedCompiler: true,
+    isPageImport
+  })
 
   // Imported as a normal component, no need to add the layout.
   if (!isPageImport) {
@@ -240,7 +236,7 @@ ${
         path.relative(gitRoot, mdxPath)
       )
     } catch {
-      // Failed to get timestamp for this file. Silently ignore it.
+      // Failed to get timestamp for this file. Silently ignore it
     }
   }
 
@@ -248,7 +244,6 @@ ${
     filePath: slash(path.relative(CWD, mdxPath)),
     route,
     ...(Object.keys(frontMatter).length > 0 && { frontMatter }),
-    headings,
     hasJsxInH1,
     timestamp,
     readingTime,
@@ -258,12 +253,13 @@ ${
     // It is possible that a theme wants to attach customized data, or modify
     // some fields of `pageOpts`. One example is that the theme doesn't need
     // to access the full pageMap or frontMatter of other pages, and it's not
-    // necessary to include them in the bundle.
+    // necessary to include them in the bundle
     pageOpts = transformPageOpts(pageOpts as any)
   }
   const finalResult = transform ? await transform(result, { route }) : result
 
-  const stringifiedPageOpts = JSON.stringify(pageOpts)
+  const stringifiedPageOpts =
+    JSON.stringify(pageOpts).slice(0, -1) + `,headings:__toc}`
   const stringifiedChecksum = IS_PRODUCTION
     ? "''"
     : JSON.stringify(hashFnv32a(stringifiedPageOpts))
@@ -277,15 +273,19 @@ ${
     )
     .join(',')
 
-  return `import { setupNextraPage } from 'nextra/setup-page'
+  const lastIndexOfFooter = finalResult.lastIndexOf(FOOTER_TO_REMOVE)
+
+  const rawJs = `import { setupNextraPage } from 'nextra/setup-page'
+${
+  // Remove the last match of `export default MDXContent;` because it can be existed in the raw MDX file
+  finalResult.slice(0, lastIndexOfFooter) +
+  finalResult.slice(lastIndexOfFooter + FOOTER_TO_REMOVE.length)
+}
+
 const __nextraPageOptions = {
   MDXContent,
   pageOpts: ${stringifiedPageOpts},
   pageNextRoute: ${JSON.stringify(route)}
-}
-${
-  // Remove the last match of `export default MDXContent` because it can be existed in the raw MDX file
-  finalResult.slice(0, finalResult.lastIndexOf('export default MDXContent;'))
 }
 if (process.env.NODE_ENV !== 'production') {
   __nextraPageOptions.hot = module.hot
@@ -294,4 +294,6 @@ if (process.env.NODE_ENV !== 'production') {
 if (typeof window === 'undefined') __nextraPageOptions.dynamicMetaModules = [${dynamicMetaModules}]
 
 export default setupNextraPage(__nextraPageOptions)`
+
+  return rawJs
 }

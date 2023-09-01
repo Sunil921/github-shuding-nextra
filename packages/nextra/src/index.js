@@ -6,8 +6,8 @@ import {
   MARKDOWN_EXTENSION_REGEX,
   MARKDOWN_EXTENSIONS
 } from './constants'
-import { NextraPlugin, pageMapCache } from './plugin'
-import { NextraSearchPlugin } from './search/plugin'
+import { pageMapCache } from './page-map'
+import { NextraPlugin, NextraSearchPlugin } from './webpack-plugins'
 
 const DEFAULT_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx']
 
@@ -75,8 +75,7 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
           config.plugins.push(nextraPlugin)
 
           if (nextraConfig.flexsearch) {
-            const nextraSearchPlugin = new NextraSearchPlugin()
-            config.plugins.push(nextraSearchPlugin)
+            config.plugins.push(new NextraSearchPlugin())
           }
         }
 
