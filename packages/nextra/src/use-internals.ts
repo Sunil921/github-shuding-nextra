@@ -37,7 +37,7 @@ export function useInternals() {
 
   if (!context) {
     throw new Error(
-      `No content found for the current route. This is a Nextra bug.`
+      'No content found for the current route. This is a Nextra bug.'
     )
   }
   const { pageOpts, Content } = context
@@ -46,6 +46,6 @@ export function useInternals() {
     Layout: __nextra_internal__.Layout,
     themeConfig: __nextra_internal__.themeConfig,
     Content,
-    pageOpts,
+    pageOpts
   }
 }

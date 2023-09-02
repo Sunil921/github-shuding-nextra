@@ -265,7 +265,7 @@ ${
 
   const stringifiedPageOpts =
     JSON.stringify(pageOpts).slice(0, -1) +
-    `,headings:__toc,pageMap:__nextraPageMap}`
+    ',headings:__toc,pageMap:__nextraPageMap}'
   const stringifiedChecksum = IS_PRODUCTION
     ? "''"
     : JSON.stringify(hashFnv32a(stringifiedPageOpts))
