@@ -137,11 +137,10 @@ export async function loader(
     const cssImport = OFFICIAL_THEMES.includes(theme)
       ? `import '${theme}/style.css'`
       : ''
-    const pageImports = `import __nextra_layout from '${layout}'
+    return `import __nextra_layout from '${layout}'
 ${themeConfigImport}
 ${katexCssImport}
-${cssImport}`
-    return `${pageImports}
+${cssImport}
 ${source}
 
 const __nextra_internal__ = globalThis[Symbol.for('__nextra_internal__')] ||= Object.create(null)
