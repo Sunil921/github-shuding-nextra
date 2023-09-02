@@ -1,4 +1,4 @@
-import { useLocale } from './use-locale'
+import { useRouter } from 'nextra/hooks'
 import styles from './features.module.css'
 
 const Feature = ({ text, icon }) => (
@@ -40,7 +40,7 @@ const FEATURES_WITH_TRANSLATIONS = {
 }
 
 export default function Features() {
-  const { locale, defaultLocale } = useLocale()
+  const { locale, defaultLocale } = useRouter()
   const featureText = key =>
     FEATURES_WITH_TRANSLATIONS[locale]?.[key] ??
     FEATURES_WITH_TRANSLATIONS[defaultLocale][key] // Fallback for missing translations

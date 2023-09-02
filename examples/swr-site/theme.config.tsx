@@ -2,7 +2,7 @@
 import type { DocsThemeConfig } from 'nextra-theme-docs'
 import { LocaleSwitch, useConfig } from 'nextra-theme-docs'
 import type { ComponentProps, ReactElement } from 'react'
-import { useLocale } from '@components/use-locale'
+import { useRouter } from 'nextra/hooks'
 
 const SWRLogo = (props: ComponentProps<'svg'>): ReactElement => (
   <svg viewBox="0 0 291 69" fill="none" {...props}>
@@ -71,7 +71,7 @@ const config: DocsThemeConfig = {
     'https://github.com/shuding/nextra/blob/core/examples/swr-site',
   editLink: {
     text: function useText() {
-      const { locale } = useLocale()
+      const { locale } = useRouter()
       return EDIT_TEXT[locale]
     }
   },
@@ -87,7 +87,7 @@ const config: DocsThemeConfig = {
   },
   footer: {
     text: function useText() {
-      const { locale } = useLocale()
+      const { locale } = useRouter()
       return (
         <a
           rel="noreferrer"
@@ -153,7 +153,7 @@ const config: DocsThemeConfig = {
     { locale: 'ru', text: 'Русский' }
   ],
   logo: function Logo() {
-    const { locale } = useLocale()
+    const { locale } = useRouter()
     return (
       <>
         <SWRLogo className="h-3" />
@@ -206,7 +206,7 @@ const config: DocsThemeConfig = {
     }
   },
   useNextSeoProps() {
-    const { locale } = useLocale()
+    const { locale } = useRouter()
     return {
       titleTemplate: `%s | SWR (${locale})`
     }

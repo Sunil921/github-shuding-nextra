@@ -1,7 +1,7 @@
-import { useLocale } from '../use-locale'
+import { useRouter } from 'nextra/hooks'
 
 export function useDraw(paths = {}, name = '') {
-  const { locale, defaultLocale } = useLocale()
+  const { locale, defaultLocale } = useRouter()
 
   if (!Object.hasOwn(paths, defaultLocale)) {
     throw new Error(
