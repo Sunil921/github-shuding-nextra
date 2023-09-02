@@ -101,12 +101,12 @@ export async function collectFiles({
         isFollowingSymlink: isSymlinked
       })
       if (!items.length) return
-      return <Folder>{
+      return {
         kind: 'Folder',
         name: f.name,
         route: fileRoute,
         children: items
-      }
+      } satisfies Folder
     }
 
     // add concurrency because folder can contain a lot of files

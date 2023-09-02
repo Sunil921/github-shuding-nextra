@@ -7,7 +7,7 @@ import { PAGES_DIR } from './file-system'
 import { resolvePageMap } from './page-map'
 import { collectFiles, collectMdx } from './plugin'
 import type { LoaderOptions, MdxPath, PageOpts } from './types'
-import { hashFnv32a, pageTitleFromFilename } from './utils'
+import { hashFnv32a, logger, pageTitleFromFilename } from './utils'
 
 const initGitRepo = (async () => {
   const IS_WEB_CONTAINER = !!process.versions.webcontainer
@@ -18,16 +18,16 @@ const initGitRepo = (async () => {
       const repository = Repository.discover(CWD)
       if (repository.isShallow()) {
         if (process.env.VERCEL) {
-          console.warn(
-            '[nextra] The repository is shallow cloned, so the latest modified time will not be presented. Set the VERCEL_DEEP_CLONE=true environment variable to enable deep cloning.'
+          logger.warn(
+            'The repository is shallow cloned, so the latest modified time will not be presented. Set the VERCEL_DEEP_CLONE=true environment variable to enable deep cloning.'
           )
         } else if (process.env.GITHUB_ACTION) {
-          console.warn(
-            '[nextra] The repository is shallow cloned, so the latest modified time will not be presented. See https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches to fetch all the history.'
+          logger.warn(
+            'The repository is shallow cloned, so the latest modified time will not be presented. See https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches to fetch all the history.'
           )
         } else {
-          console.warn(
-            '[nextra] The repository is shallow cloned, so the latest modified time will not be presented.'
+          logger.warn(
+            'The repository is shallow cloned, so the latest modified time will not be presented.'
           )
         }
       }
@@ -35,8 +35,8 @@ const initGitRepo = (async () => {
       const gitRoot = path.join(repository.path(), '..')
       return { repository, gitRoot }
     } catch (error) {
-      console.warn(
-        `[nextra] Init git repository failed ${(error as Error).message}`
+      logger.warn(
+        `Init git repository failed ${(error as Error).message}`
       )
     }
   }
@@ -95,8 +95,8 @@ export async function loader(
   }
 
   if (mdxPath.includes('/pages/api/')) {
-    console.warn(
-      `[nextra] Ignoring ${mdxPath} because it is located in the "pages/api" folder.`
+    logger.warn(
+      `Ignoring ${mdxPath} because it is located in the "pages/api" folder.`
     )
     return ''
   }
@@ -156,7 +156,7 @@ ${
 
   if (!IS_PRODUCTION) {
     for (const [filePath, file] of Object.entries(fileMap)) {
-      if (file.kind === 'Meta' && (!locale || file.locale === locale)) {
+      if (file.kind === 'Meta') {
         context.addDependency(filePath)
       }
     }
