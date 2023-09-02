@@ -35,9 +35,7 @@ const initGitRepo = (async () => {
       const gitRoot = path.join(repository.path(), '..')
       return { repository, gitRoot }
     } catch (error) {
-      logger.warn(
-        `Init git repository failed ${(error as Error).message}`
-      )
+      logger.warn(`Init git repository failed ${(error as Error).message}`)
     }
   }
   return {}
@@ -242,7 +240,6 @@ ${
 
   let pageOpts: Partial<PageOpts> = {
     filePath: slash(path.relative(CWD, mdxPath)),
-    route,
     ...(Object.keys(frontMatter).length > 0 && { frontMatter }),
     hasJsxInH1,
     timestamp,
@@ -285,6 +282,7 @@ ${mdxContent}
 
 const __nextraPageOptions = {
   MDXContent,
+  route: '${route}',
   pageOpts: ${stringifiedPageOpts}
 }
 

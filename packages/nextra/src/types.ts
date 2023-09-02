@@ -88,7 +88,6 @@ export type Heading = {
 
 export type PageOpts<FrontMatterType = FrontMatter> = {
   filePath: string
-  route: string
   frontMatter: FrontMatterType
   pageMap: PageMapItem[]
   title: string

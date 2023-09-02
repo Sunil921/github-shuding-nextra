@@ -104,13 +104,15 @@ export function setupNextraPage({
   MDXContent,
   hot,
   pageOptsChecksum,
-  dynamicMetaModules = []
+  dynamicMetaModules = [],
+  route,
 }: {
   pageOpts: PageOpts
   MDXContent: FC
   hot?: __WebpackModuleApi.Hot
   pageOptsChecksum?: string
-  dynamicMetaModules?: [Promise<any>, DynamicMetaDescriptor][]
+  dynamicMetaModules?: [Promise<any>, DynamicMetaDescriptor][],
+  route: string
 }) {
   if (typeof window === 'undefined') {
     globalThis.__nextra_resolvePageMap = async () => {
@@ -156,9 +158,9 @@ export function setupNextraPage({
     flexsearch: __nextra_internal__.flexsearch
   }
 
-  __nextra_internal__.route = pageOpts.route
+  __nextra_internal__.route = route
   __nextra_internal__.context ||= Object.create(null)
-  __nextra_internal__.context[pageOpts.route] = {
+  __nextra_internal__.context[route] = {
     Content: MDXContent,
     pageOpts,
     themeConfig: __nextra_internal__.themeConfig
@@ -170,7 +172,7 @@ export function setupNextraPage({
     hot.data ||= Object.create(null)
     if (hot.data.prevPageOptsChecksum !== checksum) {
       const listeners =
-        __nextra_internal__.refreshListeners[pageOpts.route] || []
+        __nextra_internal__.refreshListeners[route] || []
       for (const listener of listeners) {
         listener()
       }
