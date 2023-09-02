@@ -105,13 +105,13 @@ export function setupNextraPage({
   hot,
   pageOptsChecksum,
   dynamicMetaModules = [],
-  route,
+  route
 }: {
   pageOpts: PageOpts
   MDXContent: FC
   hot?: __WebpackModuleApi.Hot
   pageOptsChecksum?: string
-  dynamicMetaModules?: [Promise<any>, DynamicMetaDescriptor][],
+  dynamicMetaModules?: [Promise<any>, DynamicMetaDescriptor][]
   route: string
 }) {
   if (typeof window === 'undefined') {
@@ -171,8 +171,7 @@ export function setupNextraPage({
     const checksum = pageOptsChecksum
     hot.data ||= Object.create(null)
     if (hot.data.prevPageOptsChecksum !== checksum) {
-      const listeners =
-        __nextra_internal__.refreshListeners[route] || []
+      const listeners = __nextra_internal__.refreshListeners[route] || []
       for (const listener of listeners) {
         listener()
       }

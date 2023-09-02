@@ -3,5 +3,4 @@ pnpm-lock.yaml
 
 # bellow files are broken since prettier doesn't support MDX2
 examples/swr-site/pages/remote/graphql-eslint/\[\[...slug\]\].mdx
-examples/swr-site/pages/en/blog.mdx
 docs/pages/docs/guide/advanced/latex.mdx
