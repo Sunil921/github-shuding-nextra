@@ -100,14 +100,12 @@ export function collectCatchAllRoutes(
 let cachedResolvedPageMap: PageMapItem[]
 
 export function setupNextraPage({
-  pageNextRoute,
   pageOpts,
   MDXContent,
   hot,
   pageOptsChecksum,
   dynamicMetaModules = []
 }: {
-  pageNextRoute: string
   pageOpts: PageOpts
   MDXContent: FC
   hot?: __WebpackModuleApi.Hot
@@ -155,17 +153,12 @@ export function setupNextraPage({
     // @ts-ignore ignore "'frontMatter' is specified more than once" error to treeshake empty object `{}` for each compiled page
     frontMatter: {},
     ...pageOpts,
-    pageMap: __nextra_internal__.pageMap,
-    // .find(
-    //   (item): item is Folder =>
-    //     item.kind === 'Folder' && item.name === pageNextRoute.split('/')[1]
-    // )!.children,
     flexsearch: __nextra_internal__.flexsearch
   }
 
   __nextra_internal__.route = pageOpts.route
   __nextra_internal__.context ||= Object.create(null)
-  __nextra_internal__.context[pageNextRoute] = {
+  __nextra_internal__.context[pageOpts.route] = {
     Content: MDXContent,
     pageOpts,
     themeConfig: __nextra_internal__.themeConfig
@@ -177,7 +170,7 @@ export function setupNextraPage({
     hot.data ||= Object.create(null)
     if (hot.data.prevPageOptsChecksum !== checksum) {
       const listeners =
-        __nextra_internal__.refreshListeners[pageNextRoute] || []
+        __nextra_internal__.refreshListeners[pageOpts.route] || []
       for (const listener of listeners) {
         listener()
       }

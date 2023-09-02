@@ -7,7 +7,7 @@ import { PAGES_DIR } from './file-system'
 import { resolvePageMap } from './page-map'
 import { collectFiles, collectMdx } from './plugin'
 import type { LoaderOptions, MdxPath, PageOpts } from './types'
-import { hashFnv32a, pageTitleFromFilename, parseFileName } from './utils'
+import { hashFnv32a, pageTitleFromFilename } from './utils'
 
 const initGitRepo = (async () => {
   const IS_WEB_CONTAINER = !!process.versions.webcontainer
@@ -152,7 +152,7 @@ ${
     : ''
 }`
   }
-  const { locale } = parseFileName(mdxPath)
+  const locale = mdxPath.replace(PAGES_DIR, '').split('/')[1]
 
   if (!IS_PRODUCTION) {
     for (const [filePath, file] of Object.entries(fileMap)) {
@@ -274,19 +274,20 @@ ${
     .join(',')
 
   const lastIndexOfFooter = finalResult.lastIndexOf(FOOTER_TO_REMOVE)
+  const mdxContent = // Remove the last match of `export default MDXContent;` because it can be existed in the raw MDX file
+    finalResult.slice(0, lastIndexOfFooter) +
+    finalResult.slice(lastIndexOfFooter + FOOTER_TO_REMOVE.length)
 
   const rawJs = `import { setupNextraPage } from 'nextra/setup-page'
-${
-  // Remove the last match of `export default MDXContent;` because it can be existed in the raw MDX file
-  finalResult.slice(0, lastIndexOfFooter) +
-  finalResult.slice(lastIndexOfFooter + FOOTER_TO_REMOVE.length)
-}
+import __nextraPageMap from '.next/static/chunks/nextra-page-map-${locale}.json'
+${mdxContent}
 
 const __nextraPageOptions = {
   MDXContent,
-  pageOpts: ${stringifiedPageOpts},
-  pageNextRoute: ${JSON.stringify(route)}
+  pageOpts: ${stringifiedPageOpts}
 }
+__nextraPageOptions.pageOpts.pageMap = __nextraPageMap
+
 if (process.env.NODE_ENV !== 'production') {
   __nextraPageOptions.hot = module.hot
   __nextraPageOptions.pageOptsChecksum = ${stringifiedChecksum}
