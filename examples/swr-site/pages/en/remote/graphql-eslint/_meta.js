@@ -1,5 +1,5 @@
 /* eslint-env node */
-const { listFiles } = require('../../../components/remote-utils')
+const { listFiles } = require('../../../../components/remote-utils')
 const { createCatchAllMeta } = require('nextra/catch-all')
 
 module.exports = async () => {
