@@ -297,3 +297,13 @@ export default setupNextraPage(__nextraPageOptions)`
 
   return rawJs
 }
+
+export default function syncLoader(
+  this: LoaderContext<LoaderOptions>,
+  source: string,
+  callback: (err?: null | Error, content?: string | Buffer) => void
+): void {
+  loader(this, source)
+    .then(result => callback(null, result))
+    .catch(err => callback(err))
+}
