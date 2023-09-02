@@ -5,7 +5,7 @@ const withNextra = nextra({
   themeConfig: './theme.config.tsx',
   defaultShowCopyCode: true,
   transform(content, { route }) {
-    if (route.startsWith('/docs/advanced/more/tree/two')) {
+    if (route.startsWith('/en/docs/advanced/dynamic-markdown-import')) {
       return `
 ${content}
 export function getStaticProps() {

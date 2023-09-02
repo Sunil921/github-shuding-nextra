@@ -21,7 +21,6 @@ export default function Nextra({
       frontMatter
     })
   }
-
   return (
     <Layout themeConfig={themeConfig} pageOpts={pageOpts}>
       <SSGContext.Provider value={props}>

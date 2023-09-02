@@ -48,7 +48,7 @@ const initGitRepo = (async () => {
 
 const FOOTER_TO_REMOVE = 'export default MDXContent;'
 
-export async function loader(
+async function loader(
   context: LoaderContext<LoaderOptions>,
   source: string
 ): Promise<string> {
