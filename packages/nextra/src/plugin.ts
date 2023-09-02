@@ -21,6 +21,7 @@ import type {
 } from './types'
 import {
   isSerializable,
+  logger,
   normalizePageRoute,
   parseFileName,
   sortPages,
@@ -163,8 +164,8 @@ export async function collectFiles({
               data: { ...meta }
             }
           } else {
-            console.error(
-              `[nextra] "${fileName}" is not a valid meta file. The default export is required to be a serializable object or a function. Please check the following file:`,
+            logger.error(
+              `"${fileName}" is not a valid meta file. The default export is required to be a serializable object or a function. Please check the following file:`,
               path.relative(CWD, filePath)
             )
           }
@@ -172,20 +173,20 @@ export async function collectFiles({
         }
       } catch (err) {
         const relPath = path.relative(CWD, filePath)
-        console.error(
-          `[nextra] Error loading ${relPath}
+        logger.error(
+          `Error loading ${relPath}
 ${(err as Error).name}: ${(err as Error).message}`
         )
       }
 
       if (fileName === 'meta.json') {
-        console.warn(
-          '[nextra] "meta.json" was renamed to "_meta.json". Rename the following file:',
+        logger.warn(
+          '"meta.json" was renamed to "_meta.json". Rename the following file:',
           path.relative(CWD, filePath)
         )
       } else if (/_meta\.(jsx|ts|tsx|cjs|mjs)$/.test(fileName)) {
-        console.error(
-          `[nextra] "${fileName}" is not currently supported, please rename the following file to "${DYNAMIC_META_FILENAME}":`,
+        logger.error(
+          `"${fileName}" is not currently supported, please rename the following file to "${DYNAMIC_META_FILENAME}":`,
           path.relative(CWD, filePath)
         )
       }
