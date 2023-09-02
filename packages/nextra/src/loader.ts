@@ -102,32 +102,8 @@ export async function loader(
     return ''
   }
 
-  const { fileMap } = (await import(
-    `${CWD}/.next/static/chunks/nextra-file-map.mjs`
-  )) as { fileMap: FileMap }
-
-  const isAppFile = mdxPath.includes('/pages/_app.')
-
-  // todo: refactor and remove this
-  if (isAppFile) {
-    fileMap[mdxPath] = { kind: 'MdxPage', name: '', route: '' }
-  }
-  const existsInFileMap = !!fileMap[mdxPath]
-
-  // mdx is imported but is outside the `pages` directory
-  if (!existsInFileMap) {
-    fileMap[mdxPath] = await collectMdx(mdxPath)
-  }
-
-  // TODO
-  // const { route, pageMap, dynamicMetaItems } = resolvePageMap({
-  //   filePath: mdxPath,
-  //   fileMap,
-  //   defaultLocale,
-  //   items
-  // })
   const isLocalTheme = theme.startsWith('.') || theme.startsWith('/')
-  if (isAppFile) {
+  if (mdxPath.includes('/pages/_app.')) {
     // Relative path instead of a package name
     const layout = isLocalTheme ? slash(path.resolve(theme)) : theme
     const themeConfigImport = themeConfig
@@ -152,6 +128,17 @@ ${
     ? '__nextra_internal__.themeConfig = __nextra_themeConfig'
     : ''
 }`
+  }
+
+  const { fileMap } = (await import(
+    `${CWD}/.next/static/chunks/nextra-file-map.mjs`
+  )) as { fileMap: FileMap }
+
+  const existsInFileMap = !!fileMap[mdxPath]
+
+  // mdx is imported but is outside the `pages` directory
+  if (!existsInFileMap) {
+    fileMap[mdxPath] = await collectMdx(mdxPath)
   }
 
   if (!IS_PRODUCTION) {
@@ -182,6 +169,13 @@ ${
 
   const { route } = fileMap[mdxPath]
   const dynamicMetaItems = [] as DynamicMetaDescriptor[]
+  // TODO
+  // const { route, pageMap, dynamicMetaItems } = resolvePageMap({
+  //   filePath: mdxPath,
+  //   fileMap,
+  //   defaultLocale,
+  //   items
+  // })
 
   const {
     result,
