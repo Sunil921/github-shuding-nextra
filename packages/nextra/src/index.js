@@ -138,7 +138,8 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
                 options: {
                   theme: nextraLoaderOptions.theme,
                   themeConfig: nextraLoaderOptions.themeConfig,
-                  pageMapCache: nextraLoaderOptions.pageMapCache
+                  pageMapCache: nextraLoaderOptions.pageMapCache,
+                  flexsearch: nextraLoaderOptions.flexsearch
                 }
               }
             ]

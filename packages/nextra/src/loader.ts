@@ -259,7 +259,7 @@ ${
   const finalResult = transform ? await transform(result, { route }) : result
 
   const stringifiedPageOpts =
-    JSON.stringify(pageOpts).slice(0, -1) + `,headings:__toc}`
+    JSON.stringify(pageOpts).slice(0, -1) + `,headings:__toc,pageMap:__nextraPageMap}`
   const stringifiedChecksum = IS_PRODUCTION
     ? "''"
     : JSON.stringify(hashFnv32a(stringifiedPageOpts))
@@ -286,7 +286,6 @@ const __nextraPageOptions = {
   MDXContent,
   pageOpts: ${stringifiedPageOpts}
 }
-__nextraPageOptions.pageOpts.pageMap = __nextraPageMap
 
 if (process.env.NODE_ENV !== 'production') {
   __nextraPageOptions.hot = module.hot
