@@ -7,6 +7,7 @@ import {
   MARKDOWN_EXTENSIONS
 } from './constants'
 import { pageMapCache } from './page-map'
+import { logger } from './utils'
 import { NextraPlugin, NextraSearchPlugin } from './webpack-plugins'
 
 const DEFAULT_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx']
@@ -20,13 +21,17 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
         : themeOrNextraConfig)
     }
 
-    if (nextConfig.i18n?.locales) {
-      console.log(
-        '[nextra] You have Next.js i18n enabled, read here https://nextjs.org/docs/advanced-features/i18n-routing for the docs.'
+    const hasI18n = !!nextConfig.i18n?.locales
+
+    if (hasI18n) {
+      logger.info(
+        'You have Next.js i18n enabled, read here https://nextjs.org/docs/advanced-features/i18n-routing for the docs.'
+      )
+      logger.warn(
+        'When i18n enabled, Nextra set nextConfig.i18n = undefined, use `useRouter` from `nextra/hooks` if you need `locale` or `defaultLocale` values.'
       )
     }
     const locales = nextConfig.i18n?.locales || DEFAULT_LOCALES
-    const nextraPlugin = new NextraPlugin({ ...nextraConfig, locales })
 
     const rewrites = async () => {
       const rules = [
@@ -65,6 +70,13 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
     return {
       ...nextConfig,
       ...(nextConfig.output !== 'export' && { rewrites }),
+      ...(hasI18n && {
+        env: {
+          NEXTRA_DEFAULT_LOCALE: nextraLoaderOptions.defaultLocale,
+          ...nextConfig.env
+        },
+        i18n: undefined
+      }),
       pageExtensions: [
         ...(nextConfig.pageExtensions || DEFAULT_EXTENSIONS),
         ...MARKDOWN_EXTENSIONS
@@ -72,7 +84,7 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
       webpack(config, options) {
         if (options.nextRuntime !== 'edge' && options.isServer) {
           config.plugins ||= []
-          config.plugins.push(nextraPlugin)
+          config.plugins.push(new NextraPlugin({ locales }))
 
           if (nextraConfig.flexsearch) {
             config.plugins.push(new NextraSearchPlugin())
