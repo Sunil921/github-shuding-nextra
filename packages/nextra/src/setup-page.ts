@@ -146,20 +146,11 @@ export function setupNextraPage({
   __nextra_internal__.route = route
   __nextra_internal__.pageMap = pageOpts.pageMap
 
-  // while using `_app.md/mdx` pageMap will be injected in _app file to boost compilation time,
-  // and reduce bundle size
-  pageOpts = {
-    // @ts-ignore ignore "'frontMatter' is specified more than once" error to treeshake empty object `{}` for each compiled page
-    frontMatter: {},
-    ...pageOpts,
-    flexsearch: __nextra_internal__.flexsearch
-  }
-
-  __nextra_internal__.context ||= Object.create(null)
+  pageOpts.frontMatter ||= {}
+  pageOpts.flexsearch = __nextra_internal__.flexsearch
   __nextra_internal__.context[route] = {
     Content: MDXContent,
-    pageOpts,
-    themeConfig: __nextra_internal__.themeConfig
+    pageOpts
   }
 
   if (process.env.NODE_ENV !== 'production' && hot) {

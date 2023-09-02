@@ -116,6 +116,8 @@ export async function loader(
     fileMap[mdxPath] = await collectMdx(mdxPath)
   }
 
+  // TODO
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { route, pageMap, dynamicMetaItems } = resolvePageMap({
     filePath: mdxPath,
     fileMap,
@@ -143,6 +145,7 @@ ${source}
 const __nextra_internal__ = globalThis[Symbol.for('__nextra_internal__')] ||= Object.create(null)
 __nextra_internal__.Layout = __nextra_layout
 __nextra_internal__.flexsearch = ${JSON.stringify(flexsearch)}
+__nextra_internal__.context ||= Object.create(null)
 ${
   themeConfigImport
     ? '__nextra_internal__.themeConfig = __nextra_themeConfig'

@@ -4,12 +4,12 @@ import { useMemo } from 'react'
 export const useRouter: typeof useNextRouter = () => {
   const router = useNextRouter()
 
-  return useMemo(
-    () => ({
+  return useMemo(() => {
+    const defaultLocale = process.env.NEXTRA_DEFAULT_LOCALE
+    return {
       ...router,
-      locale: router.route.split('/')[1],
-      defaultLocale: process.env.NEXTRA_DEFAULT_LOCALE
-    }),
-    [router]
-  )
+      defaultLocale,
+      ...(defaultLocale && { locale: router.route.split('/')[1] })
+    }
+  }, [router])
 }
