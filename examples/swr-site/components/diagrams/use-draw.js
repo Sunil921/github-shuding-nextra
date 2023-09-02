@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router'
+import { useLocale } from '../use-locale'
 
 export function useDraw(paths = {}, name = '') {
-  const { locale, defaultLocale } = useRouter()
+  const { locale, defaultLocale } = useLocale()
 
   if (!Object.hasOwn(paths, defaultLocale)) {
     throw new Error(

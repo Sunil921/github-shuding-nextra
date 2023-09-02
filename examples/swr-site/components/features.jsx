@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useLocale } from './use-locale'
 import styles from './features.module.css'
 
 const Feature = ({ text, icon }) => (
@@ -40,8 +40,7 @@ const FEATURES_WITH_TRANSLATIONS = {
 }
 
 export default function Features() {
-  const { locale, defaultLocale } = useRouter()
-
+  const { locale, defaultLocale } = useLocale()
   const featureText = key =>
     FEATURES_WITH_TRANSLATIONS[locale]?.[key] ??
     FEATURES_WITH_TRANSLATIONS[defaultLocale][key] // Fallback for missing translations

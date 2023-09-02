@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router'
 import { NotFoundPage } from 'nextra-theme-docs'
+import { useLocale } from '../components/use-locale'
 
 export function Page() {
-  const { locale } = useRouter()
+  const { locale } = useLocale()
   const text = {
     en: 'This page could not be found',
     ru: 'Эта страница не может быть найдена',

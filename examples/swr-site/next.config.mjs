@@ -25,8 +25,8 @@ export function getStaticProps() {
  */
 export default withNextra({
   i18n: {
-    locales: ['en-US', 'es-ES', 'ru-RU'],
-    defaultLocale: 'en-US'
+    locales: ['en', 'es', 'ru'],
+    defaultLocale: 'en'
   }, // basePath: "/some-base-path",
   distDir: './.next', // Nextra supports custom `nextConfig.distDir`
   redirects: () => [
