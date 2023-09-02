@@ -281,7 +281,8 @@ ${
     .join(',')
 
   const lastIndexOfFooter = finalResult.lastIndexOf(FOOTER_TO_REMOVE)
-  const mdxContent = // Remove the last match of `export default MDXContent;` because it can be existed in the raw MDX file
+  const mdxContent =
+    // Remove the last match of `export default MDXContent;` because it can be existed in the raw MDX file
     finalResult.slice(0, lastIndexOfFooter) +
     finalResult.slice(lastIndexOfFooter + FOOTER_TO_REMOVE.length)
 
