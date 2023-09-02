@@ -163,11 +163,11 @@ export async function collectFiles({
           }
           return fileMap[fp]
         }
-      } catch (err) {
+      } catch (error) {
         const relPath = path.relative(CWD, filePath)
         logger.error(
           `Error loading ${relPath}
-${(err as Error).name}: ${(err as Error).message}`
+${(error as Error).name}: ${(error as Error).message}`
         )
       }
 
@@ -215,8 +215,8 @@ ${(err as Error).name}: ${(err as Error).message}`
 
     if (metaIndex === undefined && defaultMeta.length > 0) {
       // Create a new meta file if it doesn't exist.
-      const meta = {
-        kind: 'Meta' as const,
+      const meta: MetaJsonFile = {
+        kind: 'Meta',
         data: Object.fromEntries(defaultMeta)
       }
       fileMap[metaPath] = meta

@@ -49,8 +49,7 @@ export function collectCatchAllRoutes(
       parent,
       {
         kind: 'Meta',
-        data: meta.data,
-        locale: meta.locale
+        data: meta.data
       },
       false
     )
@@ -64,7 +63,6 @@ export function collectCatchAllRoutes(
       }
       parent.children.push({
         kind: 'MdxPage',
-        ...(meta.locale && { locale: meta.locale }),
         name: key,
         route: normalizePageRoute(parent.route, key)
       })
@@ -78,7 +76,6 @@ export function collectCatchAllRoutes(
       children: [
         {
           kind: 'Meta',
-          ...(meta.locale && { locale: meta.locale }),
           data: normalizeMetaData(value.items)
         }
       ]
@@ -89,8 +86,7 @@ export function collectCatchAllRoutes(
       newParent,
       {
         kind: 'Meta',
-        data: value.items,
-        locale: meta.locale
+        data: value.items
       },
       false
     )
@@ -119,9 +115,7 @@ export function setupNextraPage({
       if (process.env.NODE_ENV === 'production' && cachedResolvedPageMap) {
         return cachedResolvedPageMap
       }
-      const clonedPageMap: PageMapItem[] = JSON.parse(
-        JSON.stringify(__nextra_internal__.pageMap)
-      )
+      const clonedPageMap = structuredClone(__nextra_internal__.pageMap)
 
       await Promise.all(
         dynamicMetaModules.map(
@@ -146,9 +140,12 @@ export function setupNextraPage({
   // Make sure the same component is always returned so Next.js will render the
   // stable layout. We then put the actual content into a global store and use
   // the route to identify it.
-  const __nextra_internal__ = ((globalThis as NextraInternalGlobal)[
+  const __nextra_internal__ = (globalThis as NextraInternalGlobal)[
     NEXTRA_INTERNAL
-  ] ||= Object.create(null))
+  ]
+  __nextra_internal__.route = route
+  __nextra_internal__.pageMap = pageOpts.pageMap
+
   // while using `_app.md/mdx` pageMap will be injected in _app file to boost compilation time,
   // and reduce bundle size
   pageOpts = {
@@ -158,7 +155,6 @@ export function setupNextraPage({
     flexsearch: __nextra_internal__.flexsearch
   }
 
-  __nextra_internal__.route = route
   __nextra_internal__.context ||= Object.create(null)
   __nextra_internal__.context[route] = {
     Content: MDXContent,

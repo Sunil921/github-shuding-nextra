@@ -19,9 +19,13 @@ export class NextraPlugin {
         pageMapCache.set(result)
 
         for (const locale of locales) {
-          const folderItem = result.items.find(
-            (item): item is Folder => 'name' in item && item.name === locale
-          )
+          const folderItem =
+            locale === ''
+              ? { children: result.items }
+              : result.items.find(
+                  (item): item is Folder =>
+                    'name' in item && item.name === locale
+                )
           if (!folderItem) continue
 
           const pageMapPath = join(

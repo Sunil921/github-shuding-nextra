@@ -142,7 +142,6 @@ ${source}
 
 const __nextra_internal__ = globalThis[Symbol.for('__nextra_internal__')] ||= Object.create(null)
 __nextra_internal__.Layout = __nextra_layout
-__nextra_internal__.pageMap = ${JSON.stringify(pageMap)}
 __nextra_internal__.flexsearch = ${JSON.stringify(flexsearch)}
 ${
   themeConfigImport
@@ -150,7 +149,6 @@ ${
     : ''
 }`
   }
-  const locale = mdxPath.replace(PAGES_DIR, '').split('/')[1]
 
   if (!IS_PRODUCTION) {
     for (const [filePath, file] of Object.entries(fileMap)) {
@@ -174,6 +172,9 @@ ${
       context.addMissingDependency(mdxPath)
     }
   }
+
+  const locale =
+    locales[0] === '' ? '' : mdxPath.replace(PAGES_DIR, '').split('/')[1]
 
   const {
     result,
@@ -300,7 +301,7 @@ export default setupNextraPage(__nextraPageOptions)`
 export default function syncLoader(
   this: LoaderContext<LoaderOptions>,
   source: string,
-  callback: (err?: null | Error, content?: string | Buffer) => void
+  callback: (err?: null | Error, content?: string) => void
 ): void {
   loader(this, source)
     .then(result => callback(null, result))

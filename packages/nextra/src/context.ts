@@ -7,16 +7,21 @@ import type {
 } from './types'
 import { normalizeMeta } from './utils'
 
-function getContext(name: string): {
+function getContext(): {
   pageMap: PageMapItem[]
   route: string
 } {
   const __nextra_internal__ = (globalThis as NextraInternalGlobal)[
     NEXTRA_INTERNAL
   ]
+
   if (!__nextra_internal__) {
+    const { stack } = new Error()
+    const line = stack!.split('\n')[2]
+
+    const { functionName } = line.match(/\s+at (?<functionName>\w+)/)!.groups!
     throw new Error(
-      `Nextra context not found. Please make sure you are using "${name}" of "nextra/context" on a Nextra page.`
+      `Nextra context not found. Make sure you are using "${functionName}" of "nextra/context" on an md/mdx page.`
     )
   }
   return {
@@ -75,16 +80,16 @@ function filter(
 }
 
 export function getAllPages(): Page[] {
-  const { pageMap } = getContext('getAllPages')
+  const { pageMap } = getContext()
   return filter(pageMap).items
 }
 
 export function getCurrentLevelPages(): Page[] {
-  const { pageMap, route } = getContext('getCurrentLevelPages')
+  const { pageMap, route } = getContext()
   return filter(pageMap, route).activeLevelPages
 }
 
 export function getPagesUnderRoute(route: string): Page[] {
-  const { pageMap } = getContext('getPagesUnderRoute')
+  const { pageMap } = getContext()
   return filter(pageMap, route).activeLevelPages
 }
