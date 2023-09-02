@@ -1,8 +1,8 @@
 /* eslint sort-keys: error */
 import type { DocsThemeConfig } from 'nextra-theme-docs'
 import { LocaleSwitch, useConfig } from 'nextra-theme-docs'
-import type { ComponentProps, ReactElement } from 'react'
 import { useRouter } from 'nextra/hooks'
+import type { ComponentProps, ReactElement } from 'react'
 
 const SWRLogo = (props: ComponentProps<'svg'>): ReactElement => (
   <svg viewBox="0 0 291 69" fill="none" {...props}>
@@ -23,31 +23,31 @@ const Vercel = () => (
 )
 
 const TITLE = {
-  'en-US': 'React Hooks for Data Fetching',
-  'es-ES': 'Biblioteca React Hooks para la obtención de datos',
+  en: 'React Hooks for Data Fetching',
+  es: 'Biblioteca React Hooks para la obtención de datos',
   ru: 'React хуки для выборки данных'
 }
 
 const EDIT_TEXT = {
-  'en-US': 'Edit this page on GitHub →',
-  'es-ES': 'Edite esta página en GitHub',
+  en: 'Edit this page on GitHub →',
+  es: 'Edite esta página en GitHub',
   ru: 'Редактировать на GitHub'
 }
 
 const FOOTER_LINK = {
-  'en-US': 'https://vercel.com/?utm_source=swr',
-  'es-ES': 'https://vercel.com/?utm_source=swr_es-es',
+  en: 'https://vercel.com/?utm_source=swr',
+  es: 'https://vercel.com/?utm_source=swr_es-es',
   ru: 'https://vercel.com/?utm_source=swr_ru'
 }
 
 const FOOTER_LINK_TEXT = {
-  'en-US': (
+  en: (
     <>
       Powered by
       <Vercel />
     </>
   ),
-  'es-ES': (
+  es: (
     <>
       Desarrollado por
       <Vercel />
@@ -148,8 +148,8 @@ const config: DocsThemeConfig = {
     )
   },
   i18n: [
-    { locale: 'en-US', text: 'English' },
-    { direction: 'rtl', locale: 'es-ES', text: 'Español RTL' },
+    { locale: 'en', text: 'English' },
+    { direction: 'rtl', locale: 'es', text: 'Español RTL' },
     { locale: 'ru', text: 'Русский' }
   ],
   logo: function Logo() {

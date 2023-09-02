@@ -74,6 +74,11 @@ export default withNextra({
       source: '/examples',
       destination: '/examples/basic',
       statusCode: 302
+    },
+    {
+      source: '/',
+      destination: '/en',
+      permanent: true
     }
   ],
   reactStrictMode: true
