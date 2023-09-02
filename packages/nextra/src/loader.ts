@@ -4,9 +4,14 @@ import type { LoaderContext } from 'webpack'
 import { compileMdx } from './compile'
 import { CWD, IS_PRODUCTION, OFFICIAL_THEMES } from './constants'
 import { PAGES_DIR } from './file-system'
-import { resolvePageMap } from './page-map'
-import { collectFiles, collectMdx } from './plugin'
-import type { LoaderOptions, MdxPath, PageOpts } from './types'
+import { collectMdx } from './plugin'
+import type {
+  DynamicMetaDescriptor,
+  FileMap,
+  LoaderOptions,
+  MdxPath,
+  PageOpts
+} from './types'
 import { hashFnv32a, logger, pageTitleFromFilename } from './utils'
 
 const initGitRepo = (async () => {
@@ -52,14 +57,12 @@ export async function loader(
     theme,
     themeConfig,
     locales,
-    defaultLocale,
     defaultShowCopyCode,
     flexsearch,
     latex,
     staticImage,
     readingTime: _readingTime,
     mdxOptions,
-    pageMapCache,
     transform,
     transformPageOpts,
     codeHighlight
@@ -99,9 +102,9 @@ export async function loader(
     return ''
   }
 
-  const { items, fileMap } = IS_PRODUCTION
-    ? pageMapCache.get()!
-    : await collectFiles({ dir: PAGES_DIR, locales })
+  const { fileMap } = (await import(
+    `${CWD}/.next/static/chunks/nextra-file-map.mjs`
+  )) as { fileMap: FileMap }
 
   const isAppFile = mdxPath.includes('/pages/_app.')
 
@@ -109,7 +112,7 @@ export async function loader(
   if (isAppFile) {
     fileMap[mdxPath] = { kind: 'MdxPage', name: '', route: '' }
   }
-  const existsInFileMap = Boolean(fileMap[mdxPath])
+  const existsInFileMap = !!fileMap[mdxPath]
 
   // mdx is imported but is outside the `pages` directory
   if (!existsInFileMap) {
@@ -117,13 +120,12 @@ export async function loader(
   }
 
   // TODO
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { route, pageMap, dynamicMetaItems } = resolvePageMap({
-    filePath: mdxPath,
-    fileMap,
-    defaultLocale,
-    items
-  })
+  // const { route, pageMap, dynamicMetaItems } = resolvePageMap({
+  //   filePath: mdxPath,
+  //   fileMap,
+  //   defaultLocale,
+  //   items
+  // })
   const isLocalTheme = theme.startsWith('.') || theme.startsWith('/')
   if (isAppFile) {
     // Relative path instead of a package name
@@ -143,9 +145,9 @@ ${cssImport}`
 ${source}
 
 const __nextra_internal__ = globalThis[Symbol.for('__nextra_internal__')] ||= Object.create(null)
+__nextra_internal__.context ||= Object.create(null)
 __nextra_internal__.Layout = __nextra_layout
 __nextra_internal__.flexsearch = ${JSON.stringify(flexsearch)}
-__nextra_internal__.context ||= Object.create(null)
 ${
   themeConfigImport
     ? '__nextra_internal__.themeConfig = __nextra_themeConfig'
@@ -178,6 +180,9 @@ ${
 
   const locale =
     locales[0] === '' ? '' : mdxPath.replace(PAGES_DIR, '').split('/')[1]
+
+  const { route } = fileMap[mdxPath]
+  const dynamicMetaItems = [] as DynamicMetaDescriptor[]
 
   const {
     result,

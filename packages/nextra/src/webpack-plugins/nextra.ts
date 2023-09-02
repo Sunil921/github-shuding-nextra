@@ -18,6 +18,8 @@ export class NextraPlugin {
         const result = await collectFiles({ dir: PAGES_DIR, locales })
         pageMapCache.set(result)
 
+        const chunksPath = join(CWD, '.next', 'static', 'chunks')
+
         for (const locale of locales) {
           const folderItem =
             locale === ''
@@ -28,20 +30,18 @@ export class NextraPlugin {
                 )
           if (!folderItem) continue
 
-          const pageMapPath = join(
-            CWD,
-            '.next',
-            'static',
-            'chunks',
-            `nextra-page-map-${locale}.json`
-          )
-
           await fs.writeFile(
-            pageMapPath,
+            join(chunksPath, `nextra-page-map-${locale}.json`),
             JSON.stringify(folderItem.children, null, 2),
             'utf8'
           )
         }
+
+        await fs.writeFile(
+          join(chunksPath, 'nextra-file-map.mjs'),
+          `export const fileMap = ${JSON.stringify(result.fileMap, null, 2)}`,
+          'utf8'
+        )
 
         callback()
       } catch (error) {
