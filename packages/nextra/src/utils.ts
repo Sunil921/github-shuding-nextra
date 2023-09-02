@@ -1,23 +1,7 @@
 import path from 'node:path'
 import slash from 'slash'
 import title from 'title'
-import { LOCALE_REGEX } from './constants'
 import type { Folder, MdxFile, Meta } from './types'
-
-export function parseFileName(filePath: string): {
-  name: string
-  locale: string
-  ext: string
-} {
-  // Get file name and extension from file path
-  const { name, ext } = path.parse(filePath)
-  const locale = name.match(LOCALE_REGEX)?.[1] || ''
-  return {
-    name: locale ? name.replace(LOCALE_REGEX, '') : name,
-    locale,
-    ext
-  }
-}
 
 type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T // from lodash
 

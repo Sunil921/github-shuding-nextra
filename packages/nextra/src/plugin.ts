@@ -23,7 +23,6 @@ import {
   isSerializable,
   logger,
   normalizePageRoute,
-  parseFileName,
   sortPages,
   truthy
 } from './utils'
@@ -37,7 +36,7 @@ export const collectMdx = async (
   filePath: string,
   route = ''
 ): Promise<MdxFile> => {
-  const { name, locale } = parseFileName(filePath)
+  const { name } = path.parse(filePath)
 
   const content = await readFile(filePath, 'utf8')
   const { data } = grayMatter(content)
@@ -45,7 +44,6 @@ export const collectMdx = async (
     kind: 'MdxPage',
     name,
     route,
-    ...(locale && { locale }),
     ...(Object.keys(data).length && { frontMatter: data })
   }
 }
@@ -81,10 +79,7 @@ export async function collectFiles({
       }
     }
 
-    const { name, locale, ext } = isDirectory
-      ? // directory couldn't have extensions
-        { name: path.basename(filePath), locale: '', ext: '' }
-      : parseFileName(filePath)
+    const { name, ext } = path.parse(filePath)
     // We need to filter out dynamic routes, because we can't get all the
     // paths statically from here — they'll be generated separately.
     if (name.startsWith('[')) return
@@ -131,7 +126,6 @@ export async function collectFiles({
           const content = await readFile(fp, 'utf8')
           fileMap[fp] = {
             kind: 'Meta',
-            ...(locale && { locale }),
             data: JSON.parse(content)
           }
           return fileMap[fp]
@@ -150,7 +144,6 @@ export async function collectFiles({
             // Dynamic. Add a special key (__nextra_src) and set data as empty.
             fileMap[fp] = {
               kind: 'Meta',
-              ...(locale && { locale }),
               __nextra_src: filePath,
               data: {}
             }
@@ -158,7 +151,6 @@ export async function collectFiles({
             // Static content, can be statically optimized.
             fileMap[fp] = {
               kind: 'Meta',
-              ...(locale && { locale }),
               // we spread object because default title could be incorrectly set when _meta.json/js
               // is imported/exported by another _meta.js
               data: { ...meta }
@@ -225,7 +217,6 @@ ${(err as Error).name}: ${(err as Error).message}`
       // Create a new meta file if it doesn't exist.
       const meta = {
         kind: 'Meta' as const,
-        ...(locale && { locale }),
         data: Object.fromEntries(defaultMeta)
       }
       fileMap[metaPath] = meta
