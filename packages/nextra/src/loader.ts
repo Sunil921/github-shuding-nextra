@@ -259,7 +259,8 @@ ${
   const finalResult = transform ? await transform(result, { route }) : result
 
   const stringifiedPageOpts =
-    JSON.stringify(pageOpts).slice(0, -1) + `,headings:__toc,pageMap:__nextraPageMap}`
+    JSON.stringify(pageOpts).slice(0, -1) +
+    `,headings:__toc,pageMap:__nextraPageMap}`
   const stringifiedChecksum = IS_PRODUCTION
     ? "''"
     : JSON.stringify(hashFnv32a(stringifiedPageOpts))
@@ -305,5 +306,5 @@ export default function syncLoader(
 ): void {
   loader(this, source)
     .then(result => callback(null, result))
-    .catch(err => callback(err))
+    .catch(error => callback(error))
 }
