@@ -6,7 +6,6 @@ import {
   MARKDOWN_EXTENSION_REGEX,
   MARKDOWN_EXTENSIONS
 } from './constants'
-import { pageMapCache } from './page-map'
 import { logger } from './utils'
 import { NextraPlugin, NextraSearchPlugin } from './webpack-plugins'
 
@@ -59,7 +58,6 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
       ...nextraConfig,
       locales,
       defaultLocale: nextConfig.i18n?.defaultLocale || DEFAULT_LOCALE,
-      pageMapCache
     }
 
     // Check if there's a theme provided
@@ -138,7 +136,6 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
                 options: {
                   theme: nextraLoaderOptions.theme,
                   themeConfig: nextraLoaderOptions.themeConfig,
-                  pageMapCache: nextraLoaderOptions.pageMapCache,
                   flexsearch: nextraLoaderOptions.flexsearch
                 }
               }
