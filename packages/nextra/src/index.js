@@ -57,7 +57,7 @@ const nextra = (themeOrNextraConfig, themeConfig) =>
     const nextraLoaderOptions = {
       ...nextraConfig,
       locales,
-      defaultLocale: nextConfig.i18n?.defaultLocale || DEFAULT_LOCALE,
+      defaultLocale: nextConfig.i18n?.defaultLocale || DEFAULT_LOCALE
     }
 
     // Check if there's a theme provided
